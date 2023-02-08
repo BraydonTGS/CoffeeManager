@@ -1,7 +1,4 @@
-﻿using MyCoffeeApp.Mobile.ViewModels;
-using MyCoffeeApp.Mobile.Views;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using Xamarin.Forms;
 
 namespace MyCoffeeApp.Mobile
@@ -11,13 +8,7 @@ namespace MyCoffeeApp.Mobile
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
-        }
-
-        private async void OnMenuItemClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync("//LoginPage");
+  
         }
     }
 }
