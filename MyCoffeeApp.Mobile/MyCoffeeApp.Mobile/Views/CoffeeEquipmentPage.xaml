@@ -1,12 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MyCoffeeApp.Mobile.Views.CoffeeEquipmentPage">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodels="clr-namespace:MyCoffeeApp.Mobile.ViewModels"
+             x:Class="MyCoffeeApp.Mobile.Views.CoffeeEquipmentPage"
+             x:DataType="viewmodels:CoffeeEquipmentViewModel"
+             Background="cornsilk">
+    
+    <!-- Binding Context -->
+    <ContentPage.BindingContext>
+        <viewmodels:CoffeeEquipmentViewModel/>
+    </ContentPage.BindingContext>
+        
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+      
+        <Grid RowDefinitions="*, Auto">
+            <Label Text="My Coffee Application!"
+                   Background="blue"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
+            <Button Grid.Row="1" Text="Click Me"/>
+        </Grid>
+        
     </ContentPage.Content>
 </ContentPage>
