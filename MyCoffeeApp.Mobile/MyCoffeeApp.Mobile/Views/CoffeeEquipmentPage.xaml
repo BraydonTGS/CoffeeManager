@@ -12,14 +12,10 @@
     </ContentPage.BindingContext>
         
     <ContentPage.Content>
-      
-        <Grid RowDefinitions="*, Auto">
-            <Label Text="My Coffee Application!"
-                   Background="blue"
-                   VerticalOptions="CenterAndExpand" 
-                   HorizontalOptions="CenterAndExpand" />
-            <Button Grid.Row="1" Text="Click Me"/>
-        </Grid>
-        
+
+        <!-- List View -->
+        <ListView BackgroundColor="Transparent">
+         
+        </ListView>
     </ContentPage.Content>
 </ContentPage>
