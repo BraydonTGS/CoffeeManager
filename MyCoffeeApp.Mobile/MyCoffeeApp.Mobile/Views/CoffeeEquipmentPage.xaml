@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:viewmodels="clr-namespace:MyCoffeeApp.Mobile.ViewModels"
+             xmlns:viewmodels="clr-namespace:MyCoffeeApp.Mobile.ViewModels" 
+             xmlns:model="clr-namespace:MyCoffeeApp.Mobile.Models"
              x:Class="MyCoffeeApp.Mobile.Views.CoffeeEquipmentPage"
              x:DataType="viewmodels:CoffeeEquipmentViewModel"
-             Background="cornsilk">
+             Background="white">
     
     <!-- Binding Context -->
     <ContentPage.BindingContext>
@@ -13,9 +14,36 @@
         
     <ContentPage.Content>
 
-        <!-- List View -->
-        <ListView BackgroundColor="Transparent">
-         
+        <!-- List View Coffee -->
+        <ListView BackgroundColor="Transparent"
+                  ItemsSource="{Binding Coffee}"
+                  HasUnevenRows="True"
+                  SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:Coffee">
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Frame CornerRadius="20"
+                                   HasShadow="True">
+                                <StackLayout Orientation="Horizontal">
+                                    <Image Source="{Binding Image}"
+                                           WidthRequest="66"/>
+                                    <StackLayout VerticalOptions="Center">
+                                        <Label VerticalOptions="Center"
+                                   FontSize="Large"
+                                   Text="{Binding Name}"/>
+                                        <Label VerticalOptions="Center"
+                                   FontSize="Large"
+                                   Text="{Binding Roaster}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
         </ListView>
+        
     </ContentPage.Content>
 </ContentPage>
