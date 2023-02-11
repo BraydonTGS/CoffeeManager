@@ -6,7 +6,21 @@ namespace MyCoffeeApp.Mobile.ViewModels
 {
     public class ViewModelBase : ObservableObject
     {
-        public string Title { get; set; }   
-        public bool IsBusy { get; set; }
+       
+        private string _title;
+        private bool _isBusy;
+
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
+        public bool IsBusy 
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
+
+
     }
 }

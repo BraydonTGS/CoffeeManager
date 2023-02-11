@@ -16,12 +16,32 @@
 
         <!-- List View Coffee -->
         <ListView BackgroundColor="Transparent"
-                  ItemsSource="{Binding Coffee}"
+                  ItemSelected="ListView_ItemSelected"
+                  ItemTapped="ListView_ItemTapped"
+                  CachingStrategy="RecycleElement"
+                  ItemsSource="{Binding CoffeeGroups}"
+                  IsGroupingEnabled="True"
+                  GroupDisplayBinding="{Binding Key}"
                   HasUnevenRows="True"
-                  SeparatorVisibility="None">
+                  SeparatorVisibility="None"
+                  IsPullToRefreshEnabled="True"
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                  RefreshCommand="{Binding RefreshCommand}">
+           
+            <!-- You Can Add Headers and Footers Inside of Your ListView -->
+            <ListView.Header>
+                <StackLayout Orientation="Horizontal">
+                    <Label HorizontalOptions="Center"
+                           Text="Coffee of the World"/>
+                </StackLayout>
+            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:Coffee">
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Favorite" Clicked="MenuItem_Clicked"/>
+                            <MenuItem Text="Delete"/>
+                        </ViewCell.ContextActions>
                         <Grid Padding="10">
                             <Frame CornerRadius="20"
                                    HasShadow="True">
@@ -42,8 +62,6 @@
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
         </ListView>
-        
     </ContentPage.Content>
 </ContentPage>
