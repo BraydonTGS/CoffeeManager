@@ -1,61 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:viewmodels="clr-namespace:MyCoffeeApp.Mobile.ViewModels" 
-             xmlns:model="clr-namespace:MyCoffeeApp.Mobile.Models"
-             x:Class="MyCoffeeApp.Mobile.Views.CoffeeEquipmentPage"
-             x:DataType="viewmodels:CoffeeEquipmentViewModel"
-             Background="white">
-    
-    <!-- Binding Context -->
+<ContentPage
+    x:Class="MyCoffeeApp.Mobile.Views.CoffeeEquipmentPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:MyCoffeeApp.Mobile.Models"
+    xmlns:viewmodels="clr-namespace:MyCoffeeApp.Mobile.ViewModels"
+    x:Name="CoffeePage"
+    x:DataType="viewmodels:CoffeeEquipmentViewModel"
+    Background="white">
+
+    <!--  Binding Context  -->
     <ContentPage.BindingContext>
-        <viewmodels:CoffeeEquipmentViewModel/>
+        <viewmodels:CoffeeEquipmentViewModel />
     </ContentPage.BindingContext>
-        
+
     <ContentPage.Content>
 
-        <!-- List View Coffee -->
-        <ListView BackgroundColor="Transparent"
-                  ItemSelected="ListView_ItemSelected"
-                  ItemTapped="ListView_ItemTapped"
-                  CachingStrategy="RecycleElement"
-                  ItemsSource="{Binding CoffeeGroups}"
-                  IsGroupingEnabled="True"
-                  GroupDisplayBinding="{Binding Key}"
-                  HasUnevenRows="True"
-                  SeparatorVisibility="None"
-                  IsPullToRefreshEnabled="True"
-                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                  RefreshCommand="{Binding RefreshCommand}">
-           
-            <!-- You Can Add Headers and Footers Inside of Your ListView -->
+        <!--  List View Coffee  -->
+        <ListView
+            BackgroundColor="Transparent"
+            CachingStrategy="RecycleElement"
+            GroupDisplayBinding="{Binding Key}"
+            HasUnevenRows="True"
+            IsGroupingEnabled="True"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            ItemSelected="ListView_ItemSelected"
+            ItemTapped="ListView_ItemTapped"
+            ItemsSource="{Binding CoffeeGroups}"
+            RefreshCommand="{Binding RefreshCommand}"
+            SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
+            SeparatorVisibility="None">
+
+            <!--  You Can Add Headers and Footers Inside of Your ListView  -->
             <ListView.Header>
                 <StackLayout Orientation="Horizontal">
-                    <Label HorizontalOptions="Center"
-                           Text="Coffee of the World"/>
+                    <Label HorizontalOptions="Center" Text="Coffee of the World" />
                 </StackLayout>
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:Coffee">
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Text="Favorite" Clicked="MenuItem_Clicked"/>
-                            <MenuItem Text="Delete"/>
+                            <MenuItem
+                                Command="{Binding Source={x:Reference CoffeePage}, Path=BindingContext.FavoriteCommand}"
+                                CommandParameter="{Binding .}"
+                                Text="Favorite" />
+                            <MenuItem Text="Delete" />
                         </ViewCell.ContextActions>
                         <Grid Padding="10">
-                            <Frame CornerRadius="20"
-                                   HasShadow="True">
+                            <Frame CornerRadius="20" HasShadow="True">
                                 <StackLayout Orientation="Horizontal">
-                                    <Image Source="{Binding Image}"
-                                           WidthRequest="66"/>
+                                    <Image Source="{Binding Image}" WidthRequest="66" />
                                     <StackLayout VerticalOptions="Center">
-                                        <Label VerticalOptions="Center"
-                                   FontSize="Large"
-                                   Text="{Binding Name}"/>
-                                        <Label VerticalOptions="Center"
-                                   FontSize="Large"
-                                   Text="{Binding Roaster}"/>
+                                        <Label
+                                            FontSize="Large"
+                                            Text="{Binding Name}"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            FontSize="Large"
+                                            Text="{Binding Roaster}"
+                                            VerticalOptions="Center" />
                                     </StackLayout>
+                                    <Button
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CoffeeEquipmentViewModel}}, Path=FavoriteCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Text="Favorite" />
                                 </StackLayout>
                             </Frame>
                         </Grid>

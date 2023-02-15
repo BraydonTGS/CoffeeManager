@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace MyCoffeeApp.Mobile.ViewModels
 {
@@ -13,8 +14,9 @@ namespace MyCoffeeApp.Mobile.ViewModels
 
         public ObservableRangeCollection<Coffee> Coffee { get; set; }
         public ObservableRangeCollection<Grouping<string, Coffee>> CoffeeGroups { get; set; }
+        public IAsyncCommand RefreshCommand { get; }
+        public IAsyncCommand<Coffee> FavoriteCommand { get; }
 
-        public AsyncCommand RefreshCommand { get;}
 
 
         public CoffeeEquipmentViewModel() 
@@ -32,8 +34,33 @@ namespace MyCoffeeApp.Mobile.ViewModels
             CoffeeGroups.Add(new Grouping<string, Coffee> ("Yes Please", Coffee.Take(2))); 
 
             RefreshCommand = new AsyncCommand(Refresh); 
+            FavoriteCommand = new AsyncCommand<Coffee>(Favorite);
         }
 
+        private Coffee _selectedCoffee; 
+        public Coffee SelectedCoffee
+        {
+            get { return _selectedCoffee; }
+            set
+            {
+                if(value != null)
+                {
+                    Application.Current.MainPage.DisplayAlert("Selected", value.Name, "OK");
+                    value = null; 
+                }
+                _selectedCoffee = value;
+                OnPropertyChanged(); 
+            }
+        }
+
+        private async Task Favorite(Coffee coffee)
+        {
+            if(coffee == null)
+            {
+                return; 
+            }
+            await Application.Current.MainPage.DisplayAlert("Favorite", coffee.Name, "OK");
+        }
         private async Task Refresh()
         {
             IsBusy = true;
