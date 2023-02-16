@@ -477,3 +477,4 @@ $RECYCLE.BIN/
 *.lnk
 /MyCoffeeApp.Api/appsettings.json
 /MyCoffeeApp.Api/appsettings.json
+/MyCoffeeApp.DataAccess/AppSettings.json

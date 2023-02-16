@@ -21,7 +21,7 @@ namespace MyCoffeeApp.DataAccess.Entities
         [MaxLength(250, ErrorMessage = "Exceeded 50 character maxium.")]
         public string ImagePath { get; set; } = string.Empty;
 
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }

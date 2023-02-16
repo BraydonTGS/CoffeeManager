@@ -9,13 +9,11 @@ namespace MyCoffeeApp.DataAccess.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Coffee> Coffees { get; set; }
 
-        public CoffeeDbContext(DbContextOptions<CoffeeDbContext> options) : base(options) { }
-
         // Until API is Connected //
-        private string GetConnectionString()
+        private static string GetConnectionString()
         {
             string c = Directory.GetCurrentDirectory();
-            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(c).AddJsonFile("C:\\Users\\brayd\\Documents\\repos\\MyCoffeeApp\\MyCoffeeApp.Api\\appsettings.json").Build();
+            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(c).AddJsonFile("C:\\Users\\brayd\\Documents\\repos\\MyCoffeeApp\\MyCoffeeApp.DataAccess\\AppSettings.json").Build();
             string? connectionStringIs = configuration.GetConnectionString("CoffeeIsGood");
             if (connectionStringIs != null)
             {
