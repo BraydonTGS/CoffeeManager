@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
 namespace MyCoffeeApp.DataAccess.Entities
 {
@@ -26,7 +25,7 @@ namespace MyCoffeeApp.DataAccess.Entities
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        public string Password { get; set; } = string.Empty; 
+        public string Password { get; set; } = string.Empty;
 
         public IEnumerable<Coffee> Coffees { get; set; } = Enumerable.Empty<Coffee>();
     }
