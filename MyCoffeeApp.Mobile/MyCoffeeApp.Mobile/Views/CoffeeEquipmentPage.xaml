@@ -6,86 +6,79 @@
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     xmlns:model="clr-namespace:MyCoffeeApp.Mobile.Models"
     xmlns:viewmodels="clr-namespace:MyCoffeeApp.Mobile.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="CoffeePage"
     Background="white">
 
     <ContentPage.BindingContext>
         <viewmodels:CoffeeEquipmentViewModel />
     </ContentPage.BindingContext>
-    <RefreshView
-        Command="{Binding RefreshCommand}"
-        IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-        RefreshColor="Red">
 
-        <CollectionView
-            BackgroundColor="Transparent"
-            IsGrouped="True"
-            ItemSizingStrategy="MeasureAllItems"
-            ItemsLayout="VerticalList"
-            ItemsSource="{Binding CoffeeGroups}"
-            RemainingItemsThreshold="1"
-            RemainingItemsThresholdReachedCommand="{Binding DelayLoadMoreCommand}"
-            SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
-            SelectionMode="Single">
-            <CollectionView.EmptyView>
-                <StackLayout Padding="12">
-                    <Label HorizontalOptions="Center" Text="No coffee" />
-                </StackLayout>
-            </CollectionView.EmptyView>
-            <CollectionView.GroupHeaderTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="12">
-                        <Label Text="{Binding Key}" />
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.GroupHeaderTemplate>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <SwipeView android:SwipeView.SwipeTransitionMode="Drag">
-                        <SwipeView.RightItems>
-                            <SwipeItems>
-                                <SwipeItem
-                                    BackgroundColor="Orange"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CoffeeEquipmentViewModel}}, Path=FavoriteCommand}"
-                                    CommandParameter="{Binding .}"
-                                    Text="Favorite" />
-                                <SwipeItem
-                                    BackgroundColor="Red"
-                                    IsDestructive="True"
-                                    Text="Delete" />
-                            </SwipeItems>
-                        </SwipeView.RightItems>
-                        <Grid Padding="10">
-                            <Frame CornerRadius="20" HasShadow="True">
-                                <StackLayout Orientation="Horizontal">
-                                    <Image Source="{Binding Image}" WidthRequest="66" />
-                                    <StackLayout VerticalOptions="Center">
-                                        <Label
-                                            FontSize="Large"
-                                            Text="{Binding Name}"
-                                            VerticalOptions="Center" />
-                                        <Label
-                                            FontSize="Large"
-                                            Text="{Binding Roaster}"
-                                            VerticalOptions="Center" />
-                                    </StackLayout>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <ListView
+        BackgroundColor="Transparent"
+        CachingStrategy="RecycleElement"
+        GroupDisplayBinding="{Binding Key}"
+        HasUnevenRows="True"
+        IsGroupingEnabled="True"
+        IsPullToRefreshEnabled="True"
+        IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+        ItemsSource="{Binding CoffeeGroups}"
+        RefreshCommand="{Binding RefreshCommand}"
+        RefreshControlColor="Red"
+        SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
+        SeparatorVisibility="None">
+        <ListView.Behaviors>
+            <xct:EventToCommandBehavior
+                Command="{Binding SelectedCommand}"
+                EventArgsConverter="{StaticResource ItemSelectedEventArgsConverter}"
+                EventName="ItemSelected" />
+        </ListView.Behaviors>
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="model:Coffee">
+                <ViewCell>
+                    <ViewCell.ContextActions>
+                        <MenuItem
+                            Command="{Binding Source={x:Reference CoffeePage}, Path=BindingContext.FavoriteCommand}"
+                            CommandParameter="{Binding .}"
+                            Text="Favorite" />
+                        <MenuItem IsDestructive="True" Text="Delete" />
+                    </ViewCell.ContextActions>
+                    <Grid Padding="10">
+                        <Frame CornerRadius="20" HasShadow="True">
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="{Binding Image}" WidthRequest="66" />
+                                <StackLayout VerticalOptions="Center">
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding Roaster}"
+                                        VerticalOptions="Center" />
                                 </StackLayout>
-                            </Frame>
-                        </Grid>
-                    </SwipeView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.Header>
-                <StackLayout Orientation="Horizontal">
-                    <Label HorizontalOptions="Center" Text="Coffee of the World" />
-                </StackLayout>
-            </CollectionView.Header>
-            <CollectionView.Footer>
-                <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
-                    <Button Command="{Binding LoadMoreCommand}" Text="Load More" />
-                    <Button Command="{Binding ClearCommand}" Text="Clear" />
-                </StackLayout>
-            </CollectionView.Footer>
-        </CollectionView>
-    </RefreshView>
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.Header>
+            <StackLayout Orientation="Horizontal">
+                <Label HorizontalOptions="Center" Text="Coffee of the World" />
+            </StackLayout>
+        </ListView.Header>
+        <ListView.Footer>
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                <Button Command="{Binding LoadMoreCommand}" Text="Load More" />
+            </StackLayout>
+        </ListView.Footer>
+    </ListView>
 </ContentPage>

@@ -1,8 +1,6 @@
 ﻿
 using MyCoffeeApp.Mobile.Models;
-using System;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -11,12 +9,11 @@ namespace MyCoffeeApp.Mobile.ViewModels
 {
     public class CoffeeEquipmentViewModel : ViewModelBase
     {
-        public string image = "https://images.prismic.io/yesplz/75c1e42d-4bcc-40e1-abec-bf35816c088b_Group+2471.png?auto=compress,format&rect=0,0,870,1341&w=870&h=1341";
-
         public ObservableRangeCollection<Coffee> Coffee { get; set; }
         public ObservableRangeCollection<Grouping<string, Coffee>> CoffeeGroups { get; set; }
         public IAsyncCommand RefreshCommand { get; }
         public IAsyncCommand<Coffee> FavoriteCommand { get; }
+        public IAsyncCommand<object> SelectedCommand { get; }
         public Command DelayLoadMoreCommand { get; }
         public Command LoadMoreCommand { get; }
         public Command ClearCommand { get; }
@@ -33,6 +30,7 @@ namespace MyCoffeeApp.Mobile.ViewModels
 
             RefreshCommand = new AsyncCommand(Refresh);
             FavoriteCommand = new AsyncCommand<Coffee>(Favorite);
+            SelectedCommand = new AsyncCommand<object>(Selected);
             DelayLoadMoreCommand = new Command(Delay);
             LoadMoreCommand = new Command(LoadMore);
             ClearCommand = new Command(Clear);
@@ -40,6 +38,7 @@ namespace MyCoffeeApp.Mobile.ViewModels
 
         private void LoadMore()
         {
+            var image = "https://images.prismic.io/yesplz/75c1e42d-4bcc-40e1-abec-bf35816c088b_Group+2471.png?auto=compress,format&rect=0,0,870,1341&w=870&h=1341";
             if (Coffee.Count >= 20)
                 return;
 
@@ -57,27 +56,29 @@ namespace MyCoffeeApp.Mobile.ViewModels
 
         }
 
-        private Coffee _selectedCoffee; 
+        private Coffee _selectedCoffee;
         public Coffee SelectedCoffee
         {
             get { return _selectedCoffee; }
-            set
+            set { SetProperty(ref _selectedCoffee, value); }
+        }
+
+        private async Task Selected(object args)
+        {
+            var coffee = args as Coffee;
+            if (coffee == null)
             {
-                if(value != null)
-                {
-                    Application.Current.MainPage.DisplayAlert("Selected", value.Name, "OK");
-                    value = null; 
-                }
-                _selectedCoffee = value;
-                OnPropertyChanged(); 
+                return;
             }
+            SelectedCoffee = null; 
+            await Application.Current.MainPage.DisplayAlert("Selected", coffee.Name, "OK");
         }
 
         private async Task Favorite(Coffee coffee)
         {
-            if(coffee == null)
+            if (coffee == null)
             {
-                return; 
+                return;
             }
             await Application.Current.MainPage.DisplayAlert("Favorite", coffee.Name, "OK");
         }
