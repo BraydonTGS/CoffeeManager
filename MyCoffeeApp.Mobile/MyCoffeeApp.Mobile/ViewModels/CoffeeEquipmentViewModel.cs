@@ -11,30 +11,50 @@ namespace MyCoffeeApp.Mobile.ViewModels
 {
     public class CoffeeEquipmentViewModel : ViewModelBase
     {
+        public string image = "https://images.prismic.io/yesplz/75c1e42d-4bcc-40e1-abec-bf35816c088b_Group+2471.png?auto=compress,format&rect=0,0,870,1341&w=870&h=1341";
 
         public ObservableRangeCollection<Coffee> Coffee { get; set; }
         public ObservableRangeCollection<Grouping<string, Coffee>> CoffeeGroups { get; set; }
         public IAsyncCommand RefreshCommand { get; }
         public IAsyncCommand<Coffee> FavoriteCommand { get; }
+        public Command DelayLoadMoreCommand { get; }
+        public Command LoadMoreCommand { get; }
+        public Command ClearCommand { get; }
 
 
 
-        public CoffeeEquipmentViewModel() 
+        public CoffeeEquipmentViewModel()
         {
-            Title = "Coffee Equipment"; 
+            Title = "Coffee Equipment";
             Coffee = new ObservableRangeCollection<Coffee>();
             CoffeeGroups = new ObservableRangeCollection<Grouping<string, Coffee>>();
 
-            var image = "https://images.prismic.io/yesplz/75c1e42d-4bcc-40e1-abec-bf35816c088b_Group+2471.png?auto=compress,format&rect=0,0,870,1341&w=870&h=1341";
-            Coffee.Add(new Models.Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image= image });
-            Coffee.Add(new Models.Coffee { Roaster = "Blue Bottle", Name = "Feeling Blue", Image = image });
-            Coffee.Add(new Models.Coffee { Roaster = "Cotume", Name = "Rags and Rain", Image = image });
+            LoadMore();
 
-            CoffeeGroups.Add(new Grouping<string, Coffee>("Blue Bottle", new[] { Coffee[2] })); 
-            CoffeeGroups.Add(new Grouping<string, Coffee> ("Yes Please", Coffee.Take(2))); 
-
-            RefreshCommand = new AsyncCommand(Refresh); 
+            RefreshCommand = new AsyncCommand(Refresh);
             FavoriteCommand = new AsyncCommand<Coffee>(Favorite);
+            DelayLoadMoreCommand = new Command(Delay);
+            LoadMoreCommand = new Command(LoadMore);
+            ClearCommand = new Command(Clear);
+        }
+
+        private void LoadMore()
+        {
+            if (Coffee.Count >= 20)
+                return;
+
+            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "Feeling Blue", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Cotume", Name = "Rags and Rain", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "Feeling Blue", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Cotume", Name = "Rags and Rain", Image = image });
+
+            CoffeeGroups.Clear();
+
+            CoffeeGroups.Add(new Grouping<string, Coffee>("Blue Bottle", Coffee.Where(c => c.Roaster == "Blue Bottle")));
+            CoffeeGroups.Add(new Grouping<string, Coffee>("Yes Plz", Coffee.Where(c => c.Roaster == "Yes Plz")));
+
         }
 
         private Coffee _selectedCoffee; 
@@ -64,8 +84,28 @@ namespace MyCoffeeApp.Mobile.ViewModels
         private async Task Refresh()
         {
             IsBusy = true;
-            await Task.Delay(2000); 
-            IsBusy= false;
+
+            await Task.Delay(2000);
+
+            Coffee.Clear();
+            LoadMore();
+
+            IsBusy = false;
+        }
+
+        private void Clear(object obj)
+        {
+            Coffee.Clear();
+            CoffeeGroups.Clear();
+
+        }
+
+        private void Delay()
+        {
+            if (Coffee.Count <= 10)
+                return;
+
+            LoadMore();
         }
     }
 }
