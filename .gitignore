@@ -475,3 +475,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/MyCoffeeApp.Api/appsettings.json
+/MyCoffeeApp.Api/appsettings.json
