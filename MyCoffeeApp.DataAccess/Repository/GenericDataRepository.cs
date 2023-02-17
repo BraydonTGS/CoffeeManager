@@ -1,66 +1,84 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyCoffeeApp.DataAccess.Context;
 using MyCoffeeApp.DataAccess.Interfaces;
 
 namespace MyCoffeeApp.DataAccess.Repository
 {
     public class GenericDataRepository<T> : IGenericDataRepository<T> where T : class
     {
-        private IDbContextFactory<DbContext> _contextFactory;
-        private DbSet<T> _dbSet;
-        public GenericDataRepository(IDbContextFactory<DbContext> context)
+        private IDbContextFactory<CoffeeDbContext> _contextFactory;
+
+        public GenericDataRepository(IDbContextFactory<CoffeeDbContext> context)
         {
             _contextFactory = context;
-            _dbSet = _contextFactory.CreateDbContext().Set<T>();
         }
+
         public async Task<T> CreateAsync(T entity)
         {
-            var newEntity = await _dbSet.AddAsync(entity);
-            if (newEntity == null)
+            using (var context = _contextFactory.CreateDbContext())
             {
-                return null;
+                var newEntity = await context.Set<T>().AddAsync(entity);
+                if (newEntity == null)
+                {
+                    return null;
+                }
+                await context.SaveChangesAsync();
+                return newEntity.Entity;
             }
-            await _contextFactory.CreateDbContext().SaveChangesAsync();
-            return newEntity.Entity;
         }
 
         public async Task<bool> DeleteAsync(object id)
         {
-            var entity = _dbSet.Find(id);
-            if (entity == null)
+            using (var context = _contextFactory.CreateDbContext())
             {
-                return false;
+                var entity = context.Set<T>().Find(id);
+                if (entity == null)
+                {
+                    return false;
+                }
+                context.Set<T>().Remove(entity);
+                await context.SaveChangesAsync();
+                return true;
             }
-            _dbSet.Remove(entity);
-            await _contextFactory.CreateDbContext().SaveChangesAsync();
-            return true;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            var entities = await _dbSet.ToListAsync();
-            if (entities == null)
+            using (var context = _contextFactory.CreateDbContext())
             {
-                return null;
+                var entities = await context.Set<T>().ToListAsync();
+                if (entities == null)
+                {
+                    return null;
+                }
+                return entities;
             }
-            return entities;
+
         }
 
         public async Task<T> GetByIdAsync(object id)
         {
-            var entity = await _dbSet.FindAsync(id);
-            if (entity == null)
+            using (var context = _contextFactory.CreateDbContext())
             {
-                return null;
+                var entity = await context.Set<T>().FindAsync(id);
+                if (entity == null)
+                {
+                    return null;
+                }
+                return entity;
             }
-            return entity;
         }
 
         public async Task<T> UpdateAsync(T entity)
         {
-            _dbSet.Attach(entity);
-            _contextFactory.CreateDbContext().Entry(entity).State = EntityState.Modified;
-            await _contextFactory.CreateDbContext().SaveChangesAsync();
-            return entity;
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                context.Set<T>().Attach(entity);
+                context.Entry(entity).State = EntityState.Modified;
+                await context.SaveChangesAsync();
+                return entity;
+            }
+
         }
     }
 }
