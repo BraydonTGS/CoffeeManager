@@ -1,44 +1,49 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyCoffeeApp.DataAccess.Context;
 using MyCoffeeApp.DataAccess.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyCoffeeApp.DataAccess.Repository
 {
     public class GenericDataRepository<T> : IGenericDataRepository<T> where T : class
     {
- 
-        public GenericDataRepository(CoffeeDbContext context)
+        private IDbContextFactory<DbContext> _contextFactory;
+        private DbSet<T> _dbSet;
+        public GenericDataRepository(IDbContextFactory<DbContext> context)
         {
-            
+            _contextFactory = context;
+            _dbSet = _contextFactory.CreateDbContext().Set<T>();
         }
-        public async Task<T> CreateAsync(T args)
+        public async Task<T> CreateAsync(T entity)
         {
-            throw new NotImplementedException();
+            var newEntity = await _dbSet.AddAsync(entity);
+            await _contextFactory.CreateDbContext().SaveChangesAsync();
+            return newEntity.Entity;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = _dbSet.Find(id);
+            _dbSet.Remove(entity);
+            await _contextFactory.CreateDbContext().SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(Guid Id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await _dbSet.FindAsync(id);
+            return entity;
         }
 
-        public async Task<T> UpdateAsync(Guid id, T args)
+        public async Task<T> UpdateAsync(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Attach(entity);
+            _contextFactory.CreateDbContext().Entry(entity).State = EntityState.Modified;
+            await _contextFactory.CreateDbContext().SaveChangesAsync();
+            return entity;
         }
     }
 }
