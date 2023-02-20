@@ -8,7 +8,7 @@
     xmlns:viewmodels="clr-namespace:MyCoffeeApp.Mobile.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="CoffeePage"
-    Background="white">
+    Background="wheat">
 
     <ContentPage.BindingContext>
         <viewmodels:CoffeeEquipmentViewModel />
@@ -51,7 +51,7 @@
                         <MenuItem IsDestructive="True" Text="Delete" />
                     </ViewCell.ContextActions>
                     <Grid Padding="10">
-                        <Frame CornerRadius="20" HasShadow="True">
+                        <Frame CornerRadius="20" HasShadow="True" BorderColor="Black">
                             <StackLayout Orientation="Horizontal">
                                 <Image Source="{Binding Image}" WidthRequest="66" />
                                 <StackLayout VerticalOptions="Center">
