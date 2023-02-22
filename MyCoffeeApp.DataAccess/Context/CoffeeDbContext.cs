@@ -6,8 +6,8 @@ namespace MyCoffeeApp.DataAccess.Context
 {
     public class CoffeeDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Coffee> Coffees { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Coffee> Coffees { get; set; }
 
         // Until API is Connected //
         private static string GetConnectionString()
