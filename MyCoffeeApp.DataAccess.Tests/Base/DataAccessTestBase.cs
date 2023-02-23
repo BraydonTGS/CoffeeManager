@@ -14,30 +14,28 @@ namespace MyCoffeeApp.DataAccess.Tests.Base
         protected CoffeeDbContextFactory dbContextFactory;
         protected CoffeeDbContext dbContext;
         protected IGenericDataRepository<Coffee> genericDataRepository;
-        protected MockDbContext mockDbContext = new MockDbContext();
+        protected MockDbContext mockDbContext;
 
         [TestInitialize]
         public void Init()
         {
-            var options = new DbContextOptionsBuilder<CoffeeDbContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
-
+            mockDbContext = new MockDbContext();
+            SeedContextWithMockData(); 
             var mockFactory = new Mock<CoffeeDbContextFactory>();
             mockFactory.Setup(x => x.CreateDbContext()).Returns(mockDbContext);
             genericDataRepository = new GenericDataRepository<Coffee>(mockFactory.Object);
         }
 
-        [TestCleanup]
-        public void Cleanup()
+        private void SeedContextWithMockData()
         {
-            dbContext.Database.EnsureDeleted();
-            dbContext.Dispose();
-        }
-
-        [TestMethod]
-        public async Task GetAllCoffee()
-        {
+            var coffee = new Coffee()
+            {
+                CoffeeId = Guid.NewGuid(),
+                CoffeeName = "Test",
+                CoffeeRoaster = "Roaster"
+            }; 
+            mockDbContext.Coffees.Add(coffee);
             mockDbContext.SaveChanges();
-            var sut = await genericDataRepository.GetAllAsync();
         }
     }
 }
