@@ -7,7 +7,6 @@ namespace MyCoffeeApp.DataAccess.Repository
     public class GenericDataRepository<T> : IGenericDataRepository<T> where T : class
     {
         private IDbContextFactory<CoffeeDbContext> _contextFactory;
-
         public GenericDataRepository(IDbContextFactory<CoffeeDbContext> context)
         {
             _contextFactory = context;
@@ -15,16 +14,16 @@ namespace MyCoffeeApp.DataAccess.Repository
 
         public async Task<T> CreateAsync(T entity)
         {
-            using (var context = _contextFactory.CreateDbContext())
+            using var context = _contextFactory.CreateDbContext();
+
+            var newEntity = await context.Set<T>().AddAsync(entity);
+            if (newEntity == null)
             {
-                var newEntity = await context.Set<T>().AddAsync(entity);
-                if (newEntity == null)
-                {
-                    return null;
-                }
-                await context.SaveChangesAsync();
-                return newEntity.Entity;
+                return null;
             }
+            await context.SaveChangesAsync();
+            return newEntity.Entity;
+
         }
 
         public async Task<bool> DeleteAsync(object id)

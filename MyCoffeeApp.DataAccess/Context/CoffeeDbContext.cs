@@ -6,6 +6,7 @@ namespace MyCoffeeApp.DataAccess.Context
 {
     public class CoffeeDbContext : DbContext
     {
+
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Coffee> Coffees { get; set; }
 
