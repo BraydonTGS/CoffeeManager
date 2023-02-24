@@ -10,10 +10,10 @@ namespace MyCoffeeApp.DataAccess.Tests.Base
     [TestClass]
     public class DataAccessTestBase
     {
-        protected CoffeeDbContextFactory? dbContextFactory;
-        protected CoffeeDbContext? dbContext;
-        protected IGenericDataRepository<Coffee>? genericDataRepository;
-        protected MockDbContext? mockDbContext;
+        protected CoffeeDbContextFactory dbContextFactory;
+        protected CoffeeDbContext dbContext;
+        protected IGenericDataRepository<Coffee> genericDataRepository;
+        protected MockDbContext mockDbContext;
 
         [TestInitialize]
         public void Init()
