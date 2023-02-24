@@ -17,6 +17,8 @@ namespace MyCoffeeApp.DataAccess.Tests.Tests
         public async Task GetAllCoffee()
         {
             var sut = await genericDataRepository.GetAllAsync();
+            Assert.IsNotNull(sut);
+            Assert.AreEqual(3, sut.Count()); 
         }
     }
 }
