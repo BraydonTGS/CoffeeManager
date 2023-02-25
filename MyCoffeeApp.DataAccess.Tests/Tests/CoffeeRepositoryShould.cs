@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MyCoffeeApp.DataAccess.Entities;
 using MyCoffeeApp.DataAccess.Tests.Base;
-using NuGet.Frameworks;
 
 namespace MyCoffeeApp.DataAccess.Tests.Tests
 {
@@ -48,11 +47,23 @@ namespace MyCoffeeApp.DataAccess.Tests.Tests
         public async Task GetCoffeeByGuid_AndCheckInputAsync()
         {
             var sut = await genericDataRepository.GetByIdAsync(new Guid("7d187a7f-d717-45f3-ba15-3bd20b84fba2"));
-            Assert.IsNotNull (sut);
+
+            Assert.IsNotNull(sut);
             Assert.AreEqual("Toasted Hazelnut", sut.CoffeeName);
             Assert.AreEqual("Community Coffee", sut.CoffeeRoaster);
             Assert.AreEqual("https://images.prismic.io/yesplz/75c1e42d-4bcc-40e1-abec-bf35816c088b_Group+2471.png?auto=compress,format&rect=0,0,870,1341&w=870&h=1341", sut.ImagePath);
             Assert.AreEqual(new Guid("67d28458-b179-48a1-bf96-71d9140a14ad"), sut.UserId);
+        }
+
+        [TestMethod]
+        public async Task UpdateCoffee_andReturnUpdatedCoffeeAsync()
+        {
+            var coffeeToUpdate = await genericDataRepository.GetByIdAsync(new Guid("7d187a7f-d717-45f3-ba15-3bd20b84fba2"));
+            coffeeToUpdate.CoffeeName = "Pecan Praline";
+            coffeeToUpdate.CoffeeRoaster = "Yes Please";
+            coffeeToUpdate.ImagePath = "https://images.prismic.io/yesplz/75c1e42d-4bcc-40e1-abec-bf35816c088b_Group+2471.png?auto=compress,format&rect=0,0,870,1341&w=870&h=1341";
+            var sut = await genericDataRepository.UpdateAsync(coffeeToUpdate);
+            Assert.IsNotNull(sut);
         }
 
         #region SeedContextWithMockData

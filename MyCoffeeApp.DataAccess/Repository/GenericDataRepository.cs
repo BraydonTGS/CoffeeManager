@@ -57,26 +57,27 @@ namespace MyCoffeeApp.DataAccess.Repository
 
         public async Task<T> GetByIdAsync(object id)
         {
-            using (var context = _contextFactory.CreateDbContext())
+            using var context = _contextFactory.CreateDbContext();
+
+            var entity = await context.Set<T>().FindAsync(id);
+            if (entity == null)
             {
-                var entity = await context.Set<T>().FindAsync(id);
-                if (entity == null)
-                {
-                    return null;
-                }
-                return entity;
+                return null;
             }
+            return entity;
+
         }
 
-        public async Task<T> UpdateAsync(T entity)
+        public async Task<T> UpdateAsync(T entityUpdate)
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                context.Set<T>().Attach(entity);
-                context.Entry(entity).State = EntityState.Modified;
+                context.Set<T>().Attach(entityUpdate);
+                context.Entry(entityUpdate).State = EntityState.Modified;
                 await context.SaveChangesAsync();
-                return entity;
+                return entityUpdate;
             }
+
 
         }
     }
