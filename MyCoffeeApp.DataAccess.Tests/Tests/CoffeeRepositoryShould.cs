@@ -7,7 +7,6 @@ namespace MyCoffeeApp.DataAccess.Tests.Tests
     [TestClass]
     public class CoffeeRepositoryShould : DataAccessTestBase
     {
-
         [TestMethod]
         public async Task ReturnCoffeesInCollection_NotReturnNullAsync()
         {
