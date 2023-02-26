@@ -47,7 +47,6 @@ namespace MyCoffeeApp.DataAccess.Repository
                 return null;
             }
             return entities;
-
         }
 
         public async Task<T> GetByIdAsync(object id)
@@ -59,7 +58,6 @@ namespace MyCoffeeApp.DataAccess.Repository
                 return null;
             }
             return entity;
-
         }
 
         public async Task<T> UpdateAsync(T entityUpdate)
@@ -69,8 +67,6 @@ namespace MyCoffeeApp.DataAccess.Repository
             context.Entry(entityUpdate).State = EntityState.Detached;
             await context.SaveChangesAsync();
             return entityUpdate;
-
-
         }
     }
 }
