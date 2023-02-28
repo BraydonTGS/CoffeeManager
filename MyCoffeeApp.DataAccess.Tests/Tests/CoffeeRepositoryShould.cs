@@ -78,7 +78,18 @@ namespace MyCoffeeApp.DataAccess.Tests.Tests
             }; 
 
             var sut = await genericDataRepository.CreateAsync(coffee);
-            Assert.IsNotNull(sut);  
+            Assert.IsNotNull(sut);
+            Assert.AreEqual("Espresso Blend", sut.CoffeeName);
+            Assert.AreEqual("Domestic", sut.CoffeeRoaster);
+            Assert.AreEqual(new Guid("67d28458-b179-48a1-bf96-71d9140a14ad"), sut.UserId); 
+        }
+
+        [TestMethod]
+        public async Task DeleteSelectedCoffee_andReturnTrue()
+        {
+            var sut = await genericDataRepository.DeleteAsync(new Guid("7d187a7f-d717-45f3-ba15-3bd20b84fba2")); 
+            Assert.IsNotNull(sut);
+            Assert.IsTrue(sut); 
         }
 
         #region SeedContextWithMockData
