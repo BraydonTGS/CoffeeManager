@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyCoffeeApp.DataAccess.Context;
 using MyCoffeeApp.DataAccess.Entities;
@@ -10,7 +11,6 @@ namespace MyCoffeeApp.DataAccess.Tests.Base
     [TestClass]
     public abstract class DataAccessTestBase
     {
-        protected CoffeeDbContextFactory dbContextFactory;
         protected CoffeeDbContext dbContext;
         protected IGenericDataRepository<Coffee> genericDataRepository;
         protected MockDbContext mockDbContext;
@@ -20,7 +20,7 @@ namespace MyCoffeeApp.DataAccess.Tests.Base
         {
             mockDbContext = new MockDbContext();
             SeedContextWithMockData();
-            var mockFactory = new Mock<CoffeeDbContextFactory>();
+            var mockFactory = new Mock<IDbContextFactory<CoffeeDbContext>>();
             mockFactory.Setup(x => x.CreateDbContext()).Returns(mockDbContext);
             genericDataRepository = new GenericDataRepository<Coffee>(mockFactory.Object);
         }
