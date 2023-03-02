@@ -11,14 +11,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // DataBase Context //
-/*builder.Services.AddDbContextFactory<CoffeeDbContext>(options =>
+builder.Services.AddDbContextFactory<CoffeeDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("CoffeeIsGood"));
-});*/
+});
 
 // Dependency Injection
-builder.Services.AddTransient(typeof(IDbContextFactory<CoffeeDbContext>), typeof(CoffeeDbContextFactory)); 
 builder.Services.AddTransient(typeof(IGenericDataRepository<Coffee>), typeof(GenericDataRepository<Coffee>));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
