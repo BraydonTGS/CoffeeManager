@@ -6,10 +6,6 @@ namespace MyCoffeeApp.DataAccess.Context
 {
     public class CoffeeDbContext : DbContext
     {
-        public CoffeeDbContext()
-        {
-            
-        }
         public CoffeeDbContext(DbContextOptions options) : base(options)
         {
         }
@@ -17,7 +13,7 @@ namespace MyCoffeeApp.DataAccess.Context
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Coffee> Coffees { get; set; }
 
-        // Until API is Connected //
+/*        // Until API is Connected //
         private static string GetConnectionString()
         {
             string c = Directory.GetCurrentDirectory();
@@ -35,7 +31,7 @@ namespace MyCoffeeApp.DataAccess.Context
             {
                 optionsBuilder.UseSqlServer(GetConnectionString());
             }
-        }
+        }*/
     }
 
 }
