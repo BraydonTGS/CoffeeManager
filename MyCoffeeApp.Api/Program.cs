@@ -1,12 +1,24 @@
+using Microsoft.EntityFrameworkCore;
+using MyCoffeeApp.DataAccess.Context;
+using MyCoffeeApp.DataAccess.Entities;
+using MyCoffeeApp.DataAccess.Interfaces;
+using MyCoffeeApp.DataAccess.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// DataBase Context //
+/*builder.Services.AddDbContextFactory<CoffeeDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CoffeeIsGood"));
+});*/
+
+// Dependency Injection
+builder.Services.AddTransient(typeof(IDbContextFactory<CoffeeDbContext>), typeof(CoffeeDbContextFactory)); 
+builder.Services.AddTransient(typeof(IGenericDataRepository<Coffee>), typeof(GenericDataRepository<Coffee>));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

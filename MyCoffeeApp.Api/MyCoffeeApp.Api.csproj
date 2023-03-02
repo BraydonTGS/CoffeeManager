@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\MyCoffeeApp.DataAccess\MyCoffeeApp.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
