@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyCoffeeApp.DataAccess\MyCoffeeApp.DataAccess.csproj" />
+    <ProjectReference Include="..\MyCoffeeApp.Domain\MyCoffeeApp.Domain.csproj" />
   </ItemGroup>
 
 </Project>

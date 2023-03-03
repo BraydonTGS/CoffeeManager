@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyCoffeeApp.DataAccess.Context;
 using MyCoffeeApp.DataAccess.Entities;
 using MyCoffeeApp.DataAccess.Interfaces;
+using MyCoffeeApp.Domain.DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,37 +16,65 @@ namespace MyCoffeeApp.Api.Controllers
         {
             _repository = repository;
         }
-        // GET: api/<CoffeeController>
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-           var test = await _repository.GetAllAsync();
-            return Ok(test);
+            var result = await _repository.GetAllAsync();
+            var coffees = new List<CoffeeDto>();
+            foreach (var coffee in result)
+            {
+                var cafe = new CoffeeDto()
+                {
+                    CoffeeId = coffee.CoffeeId,
+                    CoffeeName = coffee.CoffeeName,
+                    CoffeeRoaster = coffee.CoffeeRoaster,
+                    ImagePath = coffee.ImagePath,
+                    UserId = coffee.UserId,
+                };
+                coffees.Add(cafe);
+            }
+            return Ok(coffees);
         }
 
-        // GET api/<CoffeeController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+
+        [HttpGet("{id:guid}")]
+        [ActionName("GetCoffeeById")]
+        public async Task<IActionResult> Get(Guid id)
         {
-            return "value";
+            var result = await _repository.GetByIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var coffee = new CoffeeDto()
+            {
+                CoffeeId = result.CoffeeId,
+                CoffeeName = result.CoffeeName,
+                CoffeeRoaster = result.CoffeeRoaster,
+                ImagePath = result.ImagePath,
+                UserId = result.UserId,
+            };
+            return Ok(coffee);
         }
 
-        // POST api/<CoffeeController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            throw new NotImplementedException();
         }
 
-        // PUT api/<CoffeeController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            throw new NotImplementedException();
         }
 
-        // DELETE api/<CoffeeController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            throw new NotImplementedException(); 
         }
     }
 }
+
