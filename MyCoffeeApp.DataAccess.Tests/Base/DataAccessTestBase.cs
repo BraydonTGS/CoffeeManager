@@ -18,7 +18,8 @@ namespace MyCoffeeApp.DataAccess.Tests.Base
         [TestInitialize]
         public void Init()
         {
-            mockDbContext = new MockDbContext();
+            var options = new DbContextOptionsBuilder<MockDbContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
+            mockDbContext = new MockDbContext(options);
             SeedContextWithMockData();
             var mockFactory = new Mock<IDbContextFactory<CoffeeDbContext>>();
             mockFactory.Setup(x => x.CreateDbContext()).Returns(mockDbContext);

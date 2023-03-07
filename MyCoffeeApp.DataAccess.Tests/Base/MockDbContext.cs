@@ -5,9 +5,8 @@ namespace MyCoffeeApp.DataAccess.Tests.Base
 {
     public class MockDbContext : CoffeeDbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public MockDbContext(DbContextOptions options) : base(options)
         {
-            optionsBuilder.UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString());
         }
     }
 }
