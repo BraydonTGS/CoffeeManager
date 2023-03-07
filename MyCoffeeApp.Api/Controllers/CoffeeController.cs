@@ -18,6 +18,7 @@ namespace MyCoffeeApp.Api.Controllers
         }
 
         [HttpGet]
+        [ActionName("GetAllCoffeesRequest")]
         public async Task<IActionResult> Get()
         {
             var result = await _repository.GetAllAsync();
@@ -39,7 +40,7 @@ namespace MyCoffeeApp.Api.Controllers
 
 
         [HttpGet("{id:guid}")]
-        [ActionName("GetCoffeeById")]
+        [ActionName("GetCoffeeByIdRequest")]
         public async Task<IActionResult> Get(Guid id)
         {
             var result = await _repository.GetByIdAsync(id);
@@ -59,6 +60,7 @@ namespace MyCoffeeApp.Api.Controllers
         }
 
         [HttpPost]
+        [ActionName("CreateCoffeeRequest")]
         public async Task<IActionResult> Post([FromBody] CoffeeDto coffeeDto)
         {
             var coffee = new Coffee()
@@ -76,14 +78,27 @@ namespace MyCoffeeApp.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [ActionName("UpdateCoffeeRequest")]
+        public async Task<IActionResult> Put([FromBody] CoffeeDto coffeeDto)
         {
-            throw new NotImplementedException();
+            var coffee = new Coffee()
+            {
+                CoffeeName = coffeeDto.CoffeeName,
+                CoffeeRoaster = coffeeDto.CoffeeRoaster,
+                ImagePath = coffeeDto.ImagePath,
+                UserId = coffeeDto.UserId,
+            };
+            var restult = await _repository.UpdateAsync(coffee);
+            if (restult == null)
+            {
+                return BadRequest(); 
+            }
+           return(Ok(restult));
         }
 
         [HttpDelete("{id:guid}")]
-        [ActionName("DeleteCoffeeById")]
+        [ActionName("DeleteCoffeeRequest")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _repository.DeleteAsync(id);
