@@ -59,9 +59,21 @@ namespace MyCoffeeApp.Api.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] CoffeeDto coffeeDto)
         {
-            throw new NotImplementedException();
+            var coffee = new Coffee()
+            {
+                CoffeeName = coffeeDto.CoffeeName,
+                CoffeeRoaster = coffeeDto.CoffeeRoaster,
+                ImagePath = coffeeDto.ImagePath,
+                UserId = coffeeDto.UserId,
+            };
+            var result = await _repository.CreateAsync(coffee);
+            if (result == null)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
@@ -70,10 +82,17 @@ namespace MyCoffeeApp.Api.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id:guid}")]
+        [ActionName("DeleteCoffeeById")]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            throw new NotImplementedException(); 
+            var result = await _repository.DeleteAsync(id);
+            if (!result)
+            {
+                return BadRequest(result); 
+            }
+            return Ok(result);  
+
         }
     }
 }
