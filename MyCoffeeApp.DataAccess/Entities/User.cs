@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyCoffeeApp.DataAccess.Entities
@@ -26,7 +27,6 @@ namespace MyCoffeeApp.DataAccess.Entities
 
         [Required]
         public string Password { get; set; } = string.Empty;
-
         public IEnumerable<Coffee> Coffees { get; set; } = Enumerable.Empty<Coffee>();
     }
 }
