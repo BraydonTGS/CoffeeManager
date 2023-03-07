@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MyCoffeeApp.Domain.DTO
 {
@@ -14,7 +15,5 @@ namespace MyCoffeeApp.Domain.DTO
         public string ImagePath { get; set; } = string.Empty;
 
         public Guid UserId { get; set; }
-
-        public UserDto User { get; set; }
     }
 }
