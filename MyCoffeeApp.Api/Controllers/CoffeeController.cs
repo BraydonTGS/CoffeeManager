@@ -41,36 +41,46 @@ namespace MyCoffeeApp.Api.Controllers
         [ActionName("GetCoffeeByIdRequest")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _repository.GetByIdAsync(id);
-            if (result == null)
+            var coffee = await _repository.GetByIdAsync(id);
+            if (coffee == null)
             {
                 return NotFound();
             }
-            var coffee = new CoffeeRequest()
+            var result = new CoffeeDto()
             {
-                CoffeeName = result.CoffeeName,
-                CoffeeRoaster = result.CoffeeRoaster,
-                ImagePath = result.ImagePath
+                CoffeeName = coffee.CoffeeName,
+                CoffeeRoaster = coffee.CoffeeRoaster,
+                ImagePath = coffee.ImagePath
             };
-            return Ok(coffee);
+            return Ok(result);
         }
-
+        
         [HttpPost]
         [ActionName("CreateCoffeeRequest")]
         public async Task<IActionResult> Post([FromBody] CoffeeRequest coffeeDto)
         {
             var coffee = new Coffee()
             {
+                CoffeeId = new Guid(),
                 CoffeeName = coffeeDto.CoffeeName,
                 CoffeeRoaster = coffeeDto.CoffeeRoaster,
-                ImagePath = coffeeDto.ImagePath,
-                UserId = Guid.NewGuid()
+                ImagePath = coffeeDto.ImagePath
             };
-            var result = await _repository.CreateAsync(coffee);
-            if (result == null)
+
+            var createdCoffee = await _repository.CreateAsync(coffee);
+
+            if (createdCoffee == null)
             {
-                return BadRequest(result);
+                return BadRequest(createdCoffee);
             }
+
+            var result = new CoffeeDto()
+            {
+                CoffeeId = createdCoffee.CoffeeId,
+                CoffeeName = coffeeDto.CoffeeName,
+                CoffeeRoaster = coffeeDto.CoffeeRoaster,
+                ImagePath = createdCoffee.ImagePath
+            };
             return Ok(result);
         }
 
@@ -83,13 +93,23 @@ namespace MyCoffeeApp.Api.Controllers
                 CoffeeName = coffeeDto.CoffeeName,
                 CoffeeRoaster = coffeeDto.CoffeeRoaster,
                 ImagePath = coffeeDto.ImagePath,
-                UserId = coffeeDto.UserId,
             };
-            var result = await _repository.UpdateAsync(coffee);
-            if (result == null)
+
+            var updatedCoffee = await _repository.UpdateAsync(coffee);
+
+            if (updatedCoffee == null)
             {
-                return BadRequest(result); 
+                return BadRequest(updatedCoffee); 
             }
+
+            var result = new CoffeeDto()
+            {
+                CoffeeId = updatedCoffee.CoffeeId,
+                CoffeeName = coffeeDto.CoffeeName,
+                CoffeeRoaster = coffeeDto.CoffeeRoaster,
+                ImagePath = updatedCoffee.ImagePath
+            };
+
            return(Ok(result));
         }
 
