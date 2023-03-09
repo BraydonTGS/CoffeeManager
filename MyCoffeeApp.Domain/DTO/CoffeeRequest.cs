@@ -6,6 +6,7 @@ namespace MyCoffeeApp.Domain.DTO
 {
     public class CoffeeRequest
     {
+        public Guid CoffeeId { get; set; }
         public string CoffeeRoaster { get; set; } = string.Empty;
 
         public string CoffeeName { get; set; } = string.Empty;
