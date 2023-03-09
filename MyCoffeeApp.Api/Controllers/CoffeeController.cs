@@ -21,19 +21,12 @@ namespace MyCoffeeApp.Api.Controllers
         [ActionName("GetAllCoffeesRequest")]
         public async Task<IActionResult> Get()
         {
-            var result = await _service.GetAllAsync();
-            var coffees = new List<CoffeeRequest>();
-            foreach (var coffee in result)
+            try
             {
-                var cafe = new CoffeeRequest()
-                {
-                    CoffeeName = coffee.CoffeeName,
-                    CoffeeRoaster = coffee.CoffeeRoaster,
-                    ImagePath = coffee.ImagePath
-                };
-                coffees.Add(cafe);
+                var result = await _service.GetAllAsync();
+                return Ok(result);
             }
-            return Ok(coffees);
+            catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
 
@@ -41,76 +34,36 @@ namespace MyCoffeeApp.Api.Controllers
         [ActionName("GetCoffeeByIdRequest")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var coffee = await _service.GetByIdAsync(id);
-            if (coffee == null)
+            try
             {
-                return NotFound();
+                var result = await _service.GetByIdAsync(id);
+                return Ok(result);
             }
-            var result = new CoffeeDto()
-            {
-                CoffeeName = coffee.CoffeeName,
-                CoffeeRoaster = coffee.CoffeeRoaster,
-                ImagePath = coffee.ImagePath
-            };
-            return Ok(result);
+            catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
         [HttpPost]
         [ActionName("CreateCoffeeRequest")]
-        public async Task<IActionResult> Post([FromBody] CoffeeRequest coffeeDto)
+        public async Task<IActionResult> Post([FromBody] CoffeeRequest request)
         {
-            var coffee = new Coffee()
+            try
             {
-                CoffeeId = new Guid(),
-                CoffeeName = coffeeDto.CoffeeName,
-                CoffeeRoaster = coffeeDto.CoffeeRoaster,
-                ImagePath = coffeeDto.ImagePath
-            };
-
-            var createdCoffee = await _service.CreateAsync(coffee);
-
-            if (createdCoffee == null)
-            {
-                return BadRequest(createdCoffee);
+                var result = await _service.CreateAsync(request);
+                return Ok(result);
             }
-
-            var result = new CoffeeDto()
-            {
-                CoffeeId = createdCoffee.CoffeeId,
-                CoffeeName = coffeeDto.CoffeeName,
-                CoffeeRoaster = coffeeDto.CoffeeRoaster,
-                ImagePath = createdCoffee.ImagePath
-            };
-            return Ok(result);
+            catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
         [HttpPut]
         [ActionName("UpdateCoffeeRequest")]
-        public async Task<IActionResult> Put([FromBody] CoffeeRequest coffeeDto)
+        public async Task<IActionResult> Put([FromBody] CoffeeRequest request)
         {
-            var coffee = new Coffee()
+            try
             {
-                CoffeeName = coffeeDto.CoffeeName,
-                CoffeeRoaster = coffeeDto.CoffeeRoaster,
-                ImagePath = coffeeDto.ImagePath,
-            };
-
-            var updatedCoffee = await _service.UpdateAsync(coffee);
-
-            if (updatedCoffee == null)
-            {
-                return BadRequest(updatedCoffee);
+                var result = await _service.UpdateAsync(request);
+                return Ok(result);
             }
-
-            var result = new CoffeeDto()
-            {
-                CoffeeId = updatedCoffee.CoffeeId,
-                CoffeeName = coffeeDto.CoffeeName,
-                CoffeeRoaster = coffeeDto.CoffeeRoaster,
-                ImagePath = updatedCoffee.ImagePath
-            };
-
-            return (Ok(result));
+            catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
         [HttpDelete("{id:guid}")]
