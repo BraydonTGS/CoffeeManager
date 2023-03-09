@@ -1,38 +1,98 @@
 ﻿using MyCoffeeApp.Application.Interfaces;
+using MyCoffeeApp.Domain.DTO;
 using MyCoffeeApp.Domain.Entities;
 
 namespace MyCoffeeApp.Application.Services
 {
     public class CoffeeService : ICoffeeService
     {
-        private readonly IGenericDataRepository<Coffee> _repository; 
+        private readonly IGenericDataRepository<Coffee> _repository;
         public CoffeeService(IGenericDataRepository<Coffee> repository)
         {
             _repository = repository;
         }
-        public Task<Coffee> CreateAsync(Coffee entity)
+        public async Task<CoffeeDto> CreateAsync(CoffeeRequest request)
         {
-            throw new NotImplementedException();
+            var coffee = new Coffee()
+            {
+                CoffeeId = new Guid(),
+                CoffeeName = request.CoffeeName,
+                CoffeeRoaster = request.CoffeeRoaster,
+                ImagePath = request.ImagePath,
+                UserId = new Guid("53D4FA69-970B-4963-A409-51E1F552BAE4")
+            };
+
+            var createdCoffee = await _repository.CreateAsync(coffee);
+
+            var result = new CoffeeDto()
+            {
+                CoffeeId = createdCoffee.CoffeeId,
+                CoffeeName = createdCoffee.CoffeeName,
+                CoffeeRoaster = createdCoffee.CoffeeRoaster,
+                ImagePath = createdCoffee.ImagePath
+            };
+            return result;
+
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _repository.DeleteAsync(id);
         }
 
-        public Task<IEnumerable<Coffee>> GetAllAsync()
+        public async Task<IEnumerable<CoffeeDto>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var result = await _repository.GetAllAsync();
+            var coffees = new List<CoffeeDto>();
+            foreach (var coffee in result)
+            {
+                var cafe = new CoffeeDto()
+                {
+                    CoffeeId = coffee.CoffeeId,
+                    CoffeeName = coffee.CoffeeName,
+                    CoffeeRoaster = coffee.CoffeeRoaster,
+                    ImagePath = coffee.ImagePath
+                };
+                coffees.Add(cafe);
+            }
+            return coffees;
         }
 
-        public Task<Coffee> GetByIdAsync(Guid Id)
+        public async Task<CoffeeDto> GetByIdAsync(Guid Id)
         {
-            throw new NotImplementedException();
+            var coffee = await _repository.GetByIdAsync(Id);
+            var result = new CoffeeDto()
+            {
+                CoffeeId = coffee.CoffeeId,
+                CoffeeName = coffee.CoffeeName,
+                CoffeeRoaster = coffee.CoffeeRoaster,
+                ImagePath = coffee.ImagePath
+            };
+            return result;
         }
 
-        public Task<Coffee> UpdateAsync(Coffee entity)
+        public async Task<CoffeeDto> UpdateAsync(CoffeeRequest request)
         {
-            throw new NotImplementedException();
+            var coffee = new Coffee()
+            {
+                CoffeeId = request.CoffeeId,
+                CoffeeName = request.CoffeeName,
+                CoffeeRoaster = request.CoffeeRoaster,
+                ImagePath = request.ImagePath,
+                UserId = new Guid("53D4FA69-970B-4963-A409-51E1F552BAE4")
+            };
+
+            var updatedCoffee = await _repository.UpdateAsync(coffee);
+
+            var result = new CoffeeDto()
+            {
+                CoffeeId = updatedCoffee.CoffeeId,
+                CoffeeName = updatedCoffee.CoffeeName,
+                CoffeeRoaster = updatedCoffee.CoffeeRoaster,
+                ImagePath = updatedCoffee.ImagePath
+            };
+
+            return result;
         }
     }
 }
