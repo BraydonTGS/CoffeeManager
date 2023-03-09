@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyCoffeeApp.Application.Interfaces;
 using MyCoffeeApp.DataAccess.Context;
-using MyCoffeeApp.DataAccess.Interfaces;
 
 namespace MyCoffeeApp.DataAccess.Repository
 {

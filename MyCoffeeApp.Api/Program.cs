@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using MyCoffeeApp.Application.Interfaces;
+using MyCoffeeApp.Application.Services;
 using MyCoffeeApp.DataAccess.Context;
-using MyCoffeeApp.DataAccess.Entities;
-using MyCoffeeApp.DataAccess.Interfaces;
 using MyCoffeeApp.DataAccess.Repository;
+using MyCoffeeApp.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ builder.Services.AddDbContextFactory<CoffeeDbContext>(options =>
 });
 
 // Dependency Injection
+builder.Services.AddTransient<ICoffeeService, CoffeeService>();
 builder.Services.AddTransient(typeof(IGenericDataRepository<Coffee>), typeof(GenericDataRepository<Coffee>));
 
 var app = builder.Build();

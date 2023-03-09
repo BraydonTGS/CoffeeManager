@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MyCoffeeApp.DataAccess.Entities
+namespace MyCoffeeApp.Domain.Entities
 {
     [Table("UserInfo")]
     public class User

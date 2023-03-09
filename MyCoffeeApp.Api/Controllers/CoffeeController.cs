@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyCoffeeApp.DataAccess.Entities;
-using MyCoffeeApp.DataAccess.Interfaces;
+using MyCoffeeApp.Application.Interfaces;
 using MyCoffeeApp.Domain.DTO;
+using MyCoffeeApp.Domain.Entities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,17 +11,17 @@ namespace MyCoffeeApp.Api.Controllers
     [ApiController]
     public class CoffeeController : ControllerBase
     {
-        private readonly IGenericDataRepository<Coffee> _repository;
-        public CoffeeController(IGenericDataRepository<Coffee> repository)
+        private readonly ICoffeeService _service;
+        public CoffeeController(ICoffeeService service)
         {
-            _repository = repository;
+            _service = service;
         }
 
         [HttpGet]
         [ActionName("GetAllCoffeesRequest")]
         public async Task<IActionResult> Get()
         {
-            var result = await _repository.GetAllAsync();
+            var result = await _service.GetAllAsync();
             var coffees = new List<CoffeeRequest>();
             foreach (var coffee in result)
             {
@@ -41,7 +41,7 @@ namespace MyCoffeeApp.Api.Controllers
         [ActionName("GetCoffeeByIdRequest")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var coffee = await _repository.GetByIdAsync(id);
+            var coffee = await _service.GetByIdAsync(id);
             if (coffee == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace MyCoffeeApp.Api.Controllers
             };
             return Ok(result);
         }
-        
+
         [HttpPost]
         [ActionName("CreateCoffeeRequest")]
         public async Task<IActionResult> Post([FromBody] CoffeeRequest coffeeDto)
@@ -67,7 +67,7 @@ namespace MyCoffeeApp.Api.Controllers
                 ImagePath = coffeeDto.ImagePath
             };
 
-            var createdCoffee = await _repository.CreateAsync(coffee);
+            var createdCoffee = await _service.CreateAsync(coffee);
 
             if (createdCoffee == null)
             {
@@ -95,11 +95,11 @@ namespace MyCoffeeApp.Api.Controllers
                 ImagePath = coffeeDto.ImagePath,
             };
 
-            var updatedCoffee = await _repository.UpdateAsync(coffee);
+            var updatedCoffee = await _service.UpdateAsync(coffee);
 
             if (updatedCoffee == null)
             {
-                return BadRequest(updatedCoffee); 
+                return BadRequest(updatedCoffee);
             }
 
             var result = new CoffeeDto()
@@ -110,19 +110,19 @@ namespace MyCoffeeApp.Api.Controllers
                 ImagePath = updatedCoffee.ImagePath
             };
 
-           return(Ok(result));
+            return (Ok(result));
         }
 
         [HttpDelete("{id:guid}")]
         [ActionName("DeleteCoffeeRequest")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _repository.DeleteAsync(id);
+            var result = await _service.DeleteAsync(id);
             if (!result)
             {
-                return BadRequest(result); 
+                return BadRequest(result);
             }
-            return Ok(result);  
+            return Ok(result);
 
         }
     }

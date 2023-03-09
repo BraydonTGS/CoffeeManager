@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyCoffeeApp.DataAccess\MyCoffeeApp.DataAccess.csproj" />
+    <ProjectReference Include="..\MyCoffeeApp.DataAccess\MyCoffeeApp.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

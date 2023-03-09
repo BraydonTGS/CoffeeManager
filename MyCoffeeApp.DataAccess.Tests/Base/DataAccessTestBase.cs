@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using MyCoffeeApp.Application.Interfaces;
 using MyCoffeeApp.DataAccess.Context;
-using MyCoffeeApp.DataAccess.Entities;
-using MyCoffeeApp.DataAccess.Interfaces;
 using MyCoffeeApp.DataAccess.Repository;
+using MyCoffeeApp.Domain.Entities;
 
 namespace MyCoffeeApp.DataAccess.Tests.Base
 {
