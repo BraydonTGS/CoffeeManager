@@ -85,7 +85,7 @@ namespace MyCoffeeApp.DataAccess.Repository
             {
                 var context = _contextFactory.CreateDbContext();
                 context.Set<T>().Attach(entityUpdate);
-                context.Entry(entityUpdate).State = EntityState.Detached;
+                context.Entry(entityUpdate).State = EntityState.Modified;
                 await context.SaveChangesAsync();
                 return entityUpdate;
             }
