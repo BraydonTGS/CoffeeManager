@@ -1,5 +1,7 @@
 ﻿
 using MyCoffeeApp.Mobile.Models;
+using MyCoffeeApp.Mobile.Service;
+using MyCoffeeApp.Mobile.Services;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -17,6 +19,7 @@ namespace MyCoffeeApp.Mobile.ViewModels
         public Command DelayLoadMoreCommand { get; }
         public Command LoadMoreCommand { get; }
         public Command ClearCommand { get; }
+        public IRestService _service { get; set; }
 
 
 
@@ -34,6 +37,7 @@ namespace MyCoffeeApp.Mobile.ViewModels
             DelayLoadMoreCommand = new Command(Delay);
             LoadMoreCommand = new Command(LoadMore);
             ClearCommand = new Command(Clear);
+            _service = new RestService();   
         }
 
         private void LoadMore()
@@ -42,21 +46,22 @@ namespace MyCoffeeApp.Mobile.ViewModels
             if (Coffee.Count >= 20)
                 return;
 
-            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "Feeling Blue", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Cotume", Name = "Rags and Rain", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "Feeling Blue", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Cotume", Name = "Rags and Rain", Image = image });
+            Coffee.Add(new Coffee { CoffeeRoaster = "Yes Plz", CoffeeName = "Sip of Sunshine", ImagePath = image });
+            Coffee.Add(new Coffee { CoffeeRoaster = "Blue Bottle", CoffeeName = "Feeling Blue", ImagePath = image });
+            Coffee.Add(new Coffee { CoffeeRoaster = "Cotume", CoffeeName = "Rags and Rain", ImagePath = image });
+            Coffee.Add(new Coffee { CoffeeRoaster = "Yes Plz", CoffeeName = "Sip of Sunshine", ImagePath = image });
+            Coffee.Add(new Coffee { CoffeeRoaster = "Blue Bottle", CoffeeName = "Feeling Blue", ImagePath = image });
+            Coffee.Add(new Coffee { CoffeeRoaster = "Cotume", CoffeeName = "Rags and Rain", ImagePath = image });
 
             CoffeeGroups.Clear();
 
-            CoffeeGroups.Add(new Grouping<string, Coffee>("Blue Bottle", Coffee.Where(c => c.Roaster == "Blue Bottle")));
-            CoffeeGroups.Add(new Grouping<string, Coffee>("Yes Plz", Coffee.Where(c => c.Roaster == "Yes Plz")));
+            CoffeeGroups.Add(new Grouping<string, Coffee>("Blue Bottle", Coffee.Where(c => c.CoffeeRoaster == "Blue Bottle")));
+            CoffeeGroups.Add(new Grouping<string, Coffee>("Yes Plz", Coffee.Where(c => c.CoffeeRoaster == "Yes Plz")));
 
         }
 
         private Coffee _selectedCoffee;
+
         public Coffee SelectedCoffee
         {
             get { return _selectedCoffee; }
@@ -71,7 +76,7 @@ namespace MyCoffeeApp.Mobile.ViewModels
                 return;
             }
             SelectedCoffee = null; 
-            await Application.Current.MainPage.DisplayAlert("Selected", coffee.Name, "OK");
+            await Application.Current.MainPage.DisplayAlert("Selected", coffee.CoffeeName, "OK");
         }
 
         private async Task Favorite(Coffee coffee)
@@ -80,7 +85,7 @@ namespace MyCoffeeApp.Mobile.ViewModels
             {
                 return;
             }
-            await Application.Current.MainPage.DisplayAlert("Favorite", coffee.Name, "OK");
+            await Application.Current.MainPage.DisplayAlert("Favorite", coffee.CoffeeName, "OK");
         }
         private async Task Refresh()
         {
@@ -89,7 +94,8 @@ namespace MyCoffeeApp.Mobile.ViewModels
             await Task.Delay(2000);
 
             Coffee.Clear();
-            LoadMore();
+            var coffees = await _service.GetAllAsync();
+            Coffee.AddRange(coffees); 
 
             IsBusy = false;
         }
