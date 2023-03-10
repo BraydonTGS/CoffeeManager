@@ -1,4 +1,4 @@
-﻿namespace MyCoffeeApp.DataAccess.Interfaces
+﻿namespace MyCoffeeApp.Application.Interfaces
 {
     public interface IGenericDataRepository<T>
     {

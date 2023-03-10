@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCoffeeApp.Mobile", "MyCof
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E26F701E-1648-43D0-AB3D-1BCD8259F0A4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{E8319CFC-8D36-4E2F-B260-A4E2C615CF86}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{E8319CFC-8D36-4E2F-B260-A4E2C615CF86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{6F7C06D2-30F2-417F-9BEB-A1F014C829ED}"
 EndProject
@@ -21,15 +21,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{781D71E1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobile", "mobile", "{07495B19-322B-4DD7-AC91-DB2272FFDCB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCoffeeApp.DataAccess", "MyCoffeeApp.DataAccess\MyCoffeeApp.DataAccess.csproj", "{72E3242C-49AC-4982-8522-FC4B3E4E7616}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCoffeeApp.Infrastructure", "MyCoffeeApp.DataAccess\MyCoffeeApp.Infrastructure.csproj", "{72E3242C-49AC-4982-8522-FC4B3E4E7616}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCoffeeApp.Api", "MyCoffeeApp.Api\MyCoffeeApp.Api.csproj", "{50669DC0-EA3A-46C2-B18D-04E5F3581A25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCoffeeApp.Api", "MyCoffeeApp.Api\MyCoffeeApp.Api.csproj", "{50669DC0-EA3A-46C2-B18D-04E5F3581A25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCoffeeApp.Domain", "MyCoffeeApp.Domain\MyCoffeeApp.Domain.csproj", "{6069CDF8-44DF-4B6A-BD90-4549C2EF3637}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCoffeeApp.Domain", "MyCoffeeApp.Domain\MyCoffeeApp.Domain.csproj", "{6069CDF8-44DF-4B6A-BD90-4549C2EF3637}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{6FA52054-88F8-441D-BB7B-D5E8CE494DCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCoffeeApp.DataAccess.Tests", "MyCoffeeApp.DataAccess.Tests\MyCoffeeApp.DataAccess.Tests.csproj", "{F5123382-C04B-4A03-BCA2-9499719E89C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCoffeeApp.DataAccess.Tests", "MyCoffeeApp.DataAccess.Tests\MyCoffeeApp.DataAccess.Tests.csproj", "{F5123382-C04B-4A03-BCA2-9499719E89C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ED19D7AC-DE7B-4F95-981F-14D3CA5C8767}"
+	ProjectSection(SolutionItems) = preProject
+		Todo.txt = Todo.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{05A4351E-7A28-4DF2-AB17-5B8B4E0CC07D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCoffeeApp.Application", "MyCoffeeApp.Application\MyCoffeeApp.Application.csproj", "{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +152,18 @@ Global
 		{F5123382-C04B-4A03-BCA2-9499719E89C1}.Release|iPhone.Build.0 = Release|Any CPU
 		{F5123382-C04B-4A03-BCA2-9499719E89C1}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{F5123382-C04B-4A03-BCA2-9499719E89C1}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Release|iPhone.Build.0 = Release|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -159,6 +180,8 @@ Global
 		{6069CDF8-44DF-4B6A-BD90-4549C2EF3637} = {C3E941F9-595B-4615-B9DC-24D16A952265}
 		{6FA52054-88F8-441D-BB7B-D5E8CE494DCD} = {781D71E1-1982-45A2-B248-1FAB56455215}
 		{F5123382-C04B-4A03-BCA2-9499719E89C1} = {6FA52054-88F8-441D-BB7B-D5E8CE494DCD}
+		{05A4351E-7A28-4DF2-AB17-5B8B4E0CC07D} = {E26F701E-1648-43D0-AB3D-1BCD8259F0A4}
+		{A4C9ECEE-DEE7-43E1-A416-9BC86CDB16DB} = {05A4351E-7A28-4DF2-AB17-5B8B4E0CC07D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59603A7A-B2F5-4E52-B832-2C0F8583E0F7}

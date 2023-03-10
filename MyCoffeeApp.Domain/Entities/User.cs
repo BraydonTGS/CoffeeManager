@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MyCoffeeApp.DataAccess.Entities
+namespace MyCoffeeApp.Domain.Entities
 {
     [Table("UserInfo")]
     public class User
@@ -26,7 +26,6 @@ namespace MyCoffeeApp.DataAccess.Entities
 
         [Required]
         public string Password { get; set; } = string.Empty;
-
         public IEnumerable<Coffee> Coffees { get; set; } = Enumerable.Empty<Coffee>();
     }
 }

@@ -478,3 +478,5 @@ $RECYCLE.BIN/
 /MyCoffeeApp.Api/appsettings.json
 /MyCoffeeApp.Api/appsettings.json
 /MyCoffeeApp.DataAccess/AppSettings.json
+/MyCoffeeApp.Api/appsettings.Development.json
+Todo.txt

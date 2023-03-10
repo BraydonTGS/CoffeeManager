@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
-       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:MyCoffeeApp.Mobile.Views"
-       Title="MyCoffeeApp.Mobile"
-       x:Class="MyCoffeeApp.Mobile.AppShell">
-    <!-- https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/ -->
-    
-    <!-- Shell Resources -->
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MyCoffeeApp.Mobile.AppShell"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MyCoffeeApp.Mobile.Views"
+    Title="MyCoffeeApp.Mobile">
+    <!--  https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/  -->
+
+    <!--  Shell Resources  -->
     <Shell.Resources>
         <ResourceDictionary>
             <Style x:Key="BaseStyle" TargetType="Element">
@@ -16,18 +17,21 @@
                 <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
                 <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
                 <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource Primary}" />
-                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
-                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
-                <Setter Property="Shell.TabBarTitleColor" Value="White"/>
+                <Setter Property="Shell.TabBarForegroundColor" Value="White" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarTitleColor" Value="White" />
             </Style>
-            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
-            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+            <Style BasedOn="{StaticResource BaseStyle}" TargetType="TabBar" />
+            <Style BasedOn="{StaticResource BaseStyle}" TargetType="FlyoutItem" />
 
-        <!-- Default Flyout Style -->
+            <!--  Default Flyout Style  -->
             <Style Class="FlyoutItemLabelStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="TextColor" Value="White" />
             </Style>
-            <Style Class="FlyoutItemLayoutStyle" TargetType="Layout" ApplyToDerivedTypes="True">
+            <Style
+                ApplyToDerivedTypes="True"
+                Class="FlyoutItemLayoutStyle"
+                TargetType="Layout">
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
@@ -46,9 +50,12 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
-            
-            <!-- Flyout Style -->
-            <Style Class="MenuItemLayoutStyle" TargetType="Layout" ApplyToDerivedTypes="True">
+
+            <!--  Flyout Style  -->
+            <Style
+                ApplyToDerivedTypes="True"
+                Class="MenuItemLayoutStyle"
+                TargetType="Layout">
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
@@ -64,9 +71,9 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-    <!-- Flyout -->
+    <!--  Flyout  -->
     <FlyoutItem Title="Equipment" Icon="icon_about.png">
-        <ShellContent Route="EquipmentPage" ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" />
+        <ShellContent ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" Route="EquipmentPage" />
     </FlyoutItem>
 
 </Shell>
