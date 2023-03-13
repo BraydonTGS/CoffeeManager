@@ -9,7 +9,7 @@ namespace MyCoffeeApp.Mobile.Services
     {
         Task<IEnumerable<Coffee>> GetAllAsync();
         Task<Coffee> GetByIdAsync(Guid Id);
-        Task<Coffee> CreateAsync(Coffee entity);
+        Task<Coffee> CreateAsync(string name, string roaster);
         Task<Coffee> UpdateAsync(Coffee entity);
         Task<bool> DeleteAsync(Guid id);
     }

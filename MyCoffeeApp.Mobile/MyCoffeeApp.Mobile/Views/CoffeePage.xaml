@@ -9,9 +9,8 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="CoffeePage"
     Background="wheat">
-
     <ContentPage.BindingContext>
-        <viewmodels:CoffeeEquipmentViewModel />
+        <viewmodels:CoffeeViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Resources>
@@ -20,48 +19,48 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding AddCommand}" Text="Add" />
+    </ContentPage.ToolbarItems>
+
 
     <ListView
         BackgroundColor="Transparent"
         CachingStrategy="RecycleElement"
-        GroupDisplayBinding="{Binding Key}"
         HasUnevenRows="True"
-        IsGroupingEnabled="True"
         IsPullToRefreshEnabled="True"
         IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-        ItemsSource="{Binding CoffeeGroups}"
+        ItemsSource="{Binding Coffee}"
         RefreshCommand="{Binding RefreshCommand}"
         RefreshControlColor="Red"
-        SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
+        SelectionMode="None"
         SeparatorVisibility="None">
-        <ListView.Behaviors>
-            <xct:EventToCommandBehavior
-                Command="{Binding SelectedCommand}"
-                EventArgsConverter="{StaticResource ItemSelectedEventArgsConverter}"
-                EventName="ItemSelected" />
-        </ListView.Behaviors>
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="model:Coffee">
                 <ViewCell>
                     <ViewCell.ContextActions>
                         <MenuItem
-                            Command="{Binding Source={x:Reference CoffeePage}, Path=BindingContext.FavoriteCommand}"
+                            Command="{Binding Source={x:Reference CoffeePage}, Path=BindingContext.RemoveCommand}"
                             CommandParameter="{Binding .}"
-                            Text="Favorite" />
-                        <MenuItem IsDestructive="True" Text="Delete" />
+                            IsDestructive="True"
+                            Text="Delete" />
                     </ViewCell.ContextActions>
                     <Grid Padding="10">
-                        <Frame CornerRadius="20" HasShadow="True" BorderColor="Black">
+                        <Frame CornerRadius="20" HasShadow="True">
                             <StackLayout Orientation="Horizontal">
-                                <Image Source="{Binding ImagePath}" WidthRequest="66" />
+                                <Image Source="{Binding Image}" WidthRequest="66" />
                                 <StackLayout VerticalOptions="Center">
                                     <Label
                                         FontSize="Large"
-                                        Text="{Binding CoffeeName}"
+                                        Text="{Binding Name}"
                                         VerticalOptions="Center" />
                                     <Label
                                         FontSize="Large"
-                                        Text="{Binding CoffeeRoaster}"
+                                        Text="{Binding Roaster}"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Small"
+                                        Text="{Binding Id}"
                                         VerticalOptions="Center" />
                                 </StackLayout>
                             </StackLayout>
@@ -70,15 +69,5 @@
                 </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
-        <ListView.Header>
-            <StackLayout Orientation="Horizontal">
-                <Label HorizontalOptions="Center" Text="Coffee of the World" />
-            </StackLayout>
-        </ListView.Header>
-        <ListView.Footer>
-            <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
-                <Button Command="{Binding LoadMoreCommand}" Text="Load More" />
-            </StackLayout>
-        </ListView.Footer>
     </ListView>
 </ContentPage>

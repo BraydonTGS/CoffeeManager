@@ -20,7 +20,7 @@ namespace MyCoffeeApp.Mobile.Service
             _client.BaseAddress = new Uri(_url);
         }
 
-        public async Task<Coffee> CreateAsync(Coffee entity)
+        public async Task<Coffee> CreateAsync(string name, string roaster)
         {
             throw new NotImplementedException();
         }
