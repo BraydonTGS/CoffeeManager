@@ -1,6 +1,4 @@
-﻿using MonkeyCache.FileStore;
-using Xamarin.Essentials;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace MyCoffeeApp.Mobile
 {
@@ -12,7 +10,7 @@ namespace MyCoffeeApp.Mobile
             InitializeComponent();
 
             // Monkey Cache => Creates a Folder to put the data into //
-            Barrel.ApplicationId = AppInfo.PackageName; 
+            // Barrel.ApplicationId = AppInfo.PackageName; 
             MainPage = new AppShell();
         }
 
