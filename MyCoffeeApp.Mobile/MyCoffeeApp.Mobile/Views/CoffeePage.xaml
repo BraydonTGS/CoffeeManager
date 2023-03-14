@@ -48,19 +48,15 @@
                     <Grid Padding="10">
                         <Frame CornerRadius="20" HasShadow="True">
                             <StackLayout Orientation="Horizontal">
-                                <Image Source="{Binding Image}" WidthRequest="66" />
+                                <Image Source="{Binding ImagePath}" WidthRequest="66" />
                                 <StackLayout VerticalOptions="Center">
                                     <Label
                                         FontSize="Large"
-                                        Text="{Binding Name}"
+                                        Text="{Binding CoffeeName}"
                                         VerticalOptions="Center" />
                                     <Label
                                         FontSize="Large"
-                                        Text="{Binding Roaster}"
-                                        VerticalOptions="Center" />
-                                    <Label
-                                        FontSize="Small"
-                                        Text="{Binding Id}"
+                                        Text="{Binding CoffeeRoaster}"
                                         VerticalOptions="Center" />
                                 </StackLayout>
                             </StackLayout>

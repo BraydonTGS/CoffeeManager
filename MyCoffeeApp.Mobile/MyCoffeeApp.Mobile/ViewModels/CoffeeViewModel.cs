@@ -16,7 +16,6 @@ namespace MyCoffeeApp.Mobile.ViewModels
         public IAsyncCommand RefreshCommand { get; }
         public IAsyncCommand AddCommand { get; }
         public IAsyncCommand<Coffee> DeleteCommand { get; }
-
         public IRestService _service { get; set; }
 
 
@@ -49,10 +48,9 @@ namespace MyCoffeeApp.Mobile.ViewModels
         private async Task Refresh()
         {
             IsBusy = true;
-            await Task.Delay(2000);
             Coffee.Clear();
             var coffees = await _service.GetAllAsync();
-            Coffee.AddRange(coffees); 
+            Coffee.AddRange(coffees);
             IsBusy = false;
         }
 

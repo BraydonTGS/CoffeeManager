@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MyCoffeeApp.Mobile.Service
@@ -22,12 +23,43 @@ namespace MyCoffeeApp.Mobile.Service
 
         public async Task<Coffee> CreateAsync(string name, string roaster)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var coffee = new Coffee
+                {
+                    CoffeeId = new Guid(),
+                    CoffeeName = name,
+                    CoffeeRoaster = roaster,
+                    ImagePath = "https://www.yesplz.coffee/app/uploads/2020/11/emptybag-min.png"
+                };
+                var jsonRequest = JsonConvert.SerializeObject(coffee);
+                var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+                var response = await _client.PostAsync("api/Coffee", content);
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    return null;
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<Coffee>(result);
+                return jsonResponse;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await _client.DeleteAsync($"api/Coffee/{id}");
+                if(response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    return false; 
+                }
+                var result = await response.Content.ReadAsStringAsync(); 
+                var json = JsonConvert.SerializeObject(result);
+                return true;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
         public async Task<IEnumerable<Coffee>> GetAllAsync()
