@@ -32,15 +32,19 @@ namespace MyCoffeeApp.Mobile.Service
                     CoffeeRoaster = roaster,
                     ImagePath = "https://www.yesplz.coffee/app/uploads/2020/11/emptybag-min.png"
                 };
+
                 var jsonRequest = JsonConvert.SerializeObject(coffee);
                 var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+
                 var response = await _client.PostAsync("api/Coffee", content);
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 {
                     return null;
                 }
+
                 var result = await response.Content.ReadAsStringAsync();
                 var jsonResponse = JsonConvert.DeserializeObject<Coffee>(result);
+
                 return jsonResponse;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -51,12 +55,14 @@ namespace MyCoffeeApp.Mobile.Service
             try
             {
                 var response = await _client.DeleteAsync($"api/Coffee/{id}");
-                if(response.StatusCode != System.Net.HttpStatusCode.OK)
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 {
-                    return false; 
+                    return false;
                 }
-                var result = await response.Content.ReadAsStringAsync(); 
+
+                var result = await response.Content.ReadAsStringAsync();
                 var json = JsonConvert.SerializeObject(result);
+
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -71,8 +77,10 @@ namespace MyCoffeeApp.Mobile.Service
                 {
                     return null;
                 }
+
                 var result = await response.Content.ReadAsStringAsync();
                 var json = JsonConvert.DeserializeObject<List<Coffee>>(result);
+
                 return json;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -80,12 +88,42 @@ namespace MyCoffeeApp.Mobile.Service
 
         public async Task<Coffee> GetByIdAsync(Guid Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await _client.GetAsync("api/Coffee");
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    return null;
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+                var json = JsonConvert.DeserializeObject<Coffee>(result);
+
+                return json;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
         public async Task<Coffee> UpdateAsync(Coffee entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var jsonRequest = JsonConvert.SerializeObject(entity);
+                var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+
+                var response = await _client.PutAsync("api/Coffee", content);
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    return null;
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<Coffee>(result);
+
+                return jsonResponse;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+
         }
     }
 }
