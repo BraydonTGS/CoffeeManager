@@ -30,7 +30,7 @@ namespace MyCoffeeApp.Mobile.Service
                     CoffeeId = new Guid(),
                     CoffeeName = name,
                     CoffeeRoaster = roaster,
-                    ImagePath = "https://www.yesplz.coffee/app/uploads/2020/11/emptybag-min.png"
+                    ImagePath = "auto=compress,format&rect=0,0,870,1341&w=870&h=1341"
                 };
 
                 var jsonRequest = JsonConvert.SerializeObject(coffee);

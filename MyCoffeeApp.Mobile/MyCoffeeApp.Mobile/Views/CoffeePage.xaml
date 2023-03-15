@@ -40,7 +40,7 @@
                 <ViewCell>
                     <ViewCell.ContextActions>
                         <MenuItem
-                            Command="{Binding Source={x:Reference CoffeePage}, Path=BindingContext.RemoveCommand}"
+                            Command="{Binding Source={x:Reference CoffeePage}, Path=BindingContext.DeleteCommand}"
                             CommandParameter="{Binding .}"
                             IsDestructive="True"
                             Text="Delete" />
